@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply antialiased text-gray-900;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-lg font-semibold transition-colors;
+  }
+  
+  .btn-primary {
+    @apply bg-indigo-600 text-white hover:bg-indigo-700;
+  }
+  
+  .btn-secondary {
+    @apply bg-gray-200 text-gray-800 hover:bg-gray-300;
+  }
+}
+
+@layer utilities {
+  .animate-fade {
+    animation: fade 0.3s ease-in-out;
+  }
+  
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}
