@@ -14,8 +14,12 @@ export function UpiVerification() {
       return;
     }
 
+    // Trim the UPI ID to remove any accidental whitespaces
+    const trimmedUpiId = newUpiId.trim();
+    setNewUpiId(trimmedUpiId);
     setError('');
-    const success = await verifyUpiId(newUpiId);
+
+    const success = await verifyUpiId(trimmedUpiId);
     
     if (!success) {
       setError('Invalid UPI ID. Please check and try again.');
@@ -48,7 +52,6 @@ export function UpiVerification() {
           </div>
         )}
       </div>
-
       <motion.button
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
@@ -65,7 +68,6 @@ export function UpiVerification() {
           'Verify UPI'
         )}
       </motion.button>
-
       <p className="text-sm text-gray-400">
         Note: Please ensure you enter a valid UPI ID for receiving payments.
       </p>
