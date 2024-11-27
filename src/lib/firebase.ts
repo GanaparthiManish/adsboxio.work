@@ -1,7 +1,9 @@
+// firebase.ts
 import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import toast from 'react-hot-toast';
+import { handleAuthSuccess } from './auth';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -19,6 +21,7 @@ export const db = getFirestore(app);
 export const signUpWithEmail = async (email: string, password: string) => {
   try {
     const result = await createUserWithEmailAndPassword(auth, email, password);
+    await handleAuthSuccess(result.user);
     return result;
   } catch (error: any) {
     console.error('Signup error:', error);
@@ -38,6 +41,7 @@ export const signUpWithEmail = async (email: string, password: string) => {
 export const signInWithEmail = async (email: string, password: string) => {
   try {
     const result = await signInWithEmailAndPassword(auth, email, password);
+    await handleAuthSuccess(result.user);
     return result;
   } catch (error: any) {
     console.error('Login error:', error);

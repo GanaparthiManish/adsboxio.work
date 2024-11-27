@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+// components/AuthModal.tsx
+import React, { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { X, Mail } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { signUpWithEmail, signInWithEmail } from '../lib/firebase';
 import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -13,6 +15,7 @@ interface AuthModalProps {
 
 export function AuthModal({ isOpen, onClose, type }: AuthModalProps) {
   const { login } = useStore();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
@@ -26,7 +29,7 @@ export function AuthModal({ isOpen, onClose, type }: AuthModalProps) {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.email || !formData.password) {
       toast.error('Please fill in all fields');
@@ -39,17 +42,22 @@ export function AuthModal({ isOpen, onClose, type }: AuthModalProps) {
       const result = await authFunction(formData.email, formData.password);
       
       if (result?.user) {
-        login({ email: result.user.email || '' });
+        await login({ 
+          uid: result.user.uid,
+          email: result.user.email || '',
+          username: result.user.displayName || result.user.email?.split('@')[0] || 'User'
+        });
+        
         toast.success(type === 'login' ? 'Welcome back!' : 'Account created successfully!');
         onClose();
-        window.location.href = '/';
+        navigate('/', { replace: true });
       }
     } catch (error) {
-      // Error handling is done in the auth functions
+      setIsLoading(false);
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [formData, type, login, navigate, onClose]);
 
   if (!isOpen) return null;
 
