@@ -1,4 +1,4 @@
-import { auth, db } from './firebase';
+import { db } from './firebase';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import toast from 'react-hot-toast';
 import localforage from 'localforage';
