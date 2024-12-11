@@ -33,17 +33,7 @@ export function Watch() {
     });
   }, [addCoins]);
 
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-900 via-black to-pink-900 flex items-center justify-center">
-        <div className="text-center text-white">
-          <h2 className="text-2xl font-bold mb-4">Please Login</h2>
-          <p>You need to be logged in to watch ads and earn coins.</p>
-        </div>
-      </div>
-    );
-  }
-
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-black to-pink-900">
       <div className="max-w-7xl mx-auto px-4 py-12">

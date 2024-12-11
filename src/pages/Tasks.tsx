@@ -136,17 +136,7 @@ export function Tasks() {
     }
   };
 
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen py-12 px-4 flex items-center justify-center">
-        <div className="text-center text-white">
-          <h2 className="text-2xl font-bold mb-4">Please Login</h2>
-          <p>You need to be logged in to access tasks and earn rewards.</p>
-        </div>
-      </div>
-    );
-  }
-
+   
   return (
     <div className="min-h-screen py-12 px-4">
       <div className="max-w-7xl mx-auto">
