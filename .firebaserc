@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "adsbox-24c03"
-  }
+    "default": "adsbox-24c03",
+    "adsboxio.work": "adsbox-24c03"
+  },
+  "targets": {},
+  "etags": {}
 }
