@@ -1,4 +1,3 @@
-// components/AuthModal.tsx
 import React, { useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { X, Mail } from 'lucide-react';
@@ -23,37 +22,40 @@ export function AuthModal({ isOpen, onClose, type }: AuthModalProps) {
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value
     }));
   };
 
-  const handleSubmit = useCallback(async (e: React.FormEvent) => {
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
+
     if (!formData.email || !formData.password) {
       toast.error('Please fill in all fields');
       return;
     }
 
     setIsLoading(true);
+
     try {
       const authFunction = type === 'signup' ? signUpWithEmail : signInWithEmail;
       const result = await authFunction(formData.email, formData.password);
-      
+
       if (result?.user) {
-        await login({ 
+        await login({
           uid: result.user.uid,
           email: result.user.email || '',
-          username: result.user.displayName || result.user.email?.split('@')[0] || 'User'
+          username: result.user.displayName || result.user.email?.split('@')[0] || 'User',
         });
-        
+
         toast.success(type === 'login' ? 'Welcome back!' : 'Account created successfully!');
-        onClose();
         navigate('/', { replace: true });
+        onClose();
       }
     } catch (error) {
-      setIsLoading(false);
+      console.error('Error during authentication:', error);
+      toast.error('Authentication failed. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -127,38 +129,6 @@ export function AuthModal({ isOpen, onClose, type }: AuthModalProps) {
               </div>
             )}
           </button>
-
-          <p className="text-sm text-center text-gray-500">
-            {type === 'login' ? (
-              <>
-                Don't have an account?{' '}
-                <button
-                  type="button"
-                  onClick={() => {
-                    setFormData({ email: '', password: '' });
-                    onClose();
-                  }}
-                  className="text-purple-600 hover:text-purple-700 font-medium"
-                >
-                  Sign up
-                </button>
-              </>
-            ) : (
-              <>
-                Already have an account?{' '}
-                <button
-                  type="button"
-                  onClick={() => {
-                    setFormData({ email: '', password: '' });
-                    onClose();
-                  }}
-                  className="text-purple-600 hover:text-purple-700 font-medium"
-                >
-                  Login
-                </button>
-              </>
-            )}
-          </p>
         </form>
       </motion.div>
     </div>

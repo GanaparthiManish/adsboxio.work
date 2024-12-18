@@ -11,13 +11,18 @@ import { Support } from './pages/Support';
 import { Terms } from './pages/Terms';
 
 export default function App() {
+  const { isAuthenticated, user } = useStore();
+
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-purple-900 via-black to-pink-900">
       <Navbar />
       <div className="flex-grow">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
+          <Route
+            path="/profile"
+            element={isAuthenticated ? <Profile /> : <Navigate to="/" replace />}
+          />
           <Route path="/watch" element={<Watch />} />
           <Route path="/tasks" element={<Tasks />} />
           <Route path="/support" element={<Support />} />
